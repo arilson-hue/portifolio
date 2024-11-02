@@ -1,0 +1,116 @@
+create database db_sistema_facul;
+use db_sistema_facul;
+
+
+CREATE TABLE tbl_aluno (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(100) NOT NULL,
+    cpf VARCHAR(11) UNIQUE NOT NULL,
+    data_nascimento DATE,
+    numero VARCHAR(45),
+    email VARCHAR(255),
+    matricula VARCHAR(45) UNIQUE
+);
+
+create table tbl_materia_aluno (
+	id int not null primary key auto_increment,
+	id_materias int not null,
+    id_aluno int not null,
+    
+    constraint FK_materias_materia_aluno
+    foreign key (id_materias)
+    references tbl_materias (id_materias),
+   
+   constraint FK_aluno_materia_aluno
+    foreign key (id_aluno)
+    references tbl_aluno (id) );
+
+CREATE TABLE tbl_cursos (
+    id_cursos INT PRIMARY KEY AUTO_INCREMENT,
+    nome_curso VARCHAR(45) NOT NULL,
+    grau VARCHAR(45),
+    duracao VARCHAR(45),
+    tbl_cursoscol VARCHAR(45),
+    tbl_aluno_id INT,
+    FOREIGN KEY (tbl_aluno_id) 
+    REFERENCES tbl_aluno(id)
+);
+
+
+CREATE TABLE tbl_materias (
+    id_materias INT PRIMARY KEY AUTO_INCREMENT,
+    nome_materia VARCHAR(45) NOT NULL,
+    carga_horaria VARCHAR(45),
+    tbl_aluno_id INT,
+    FOREIGN KEY (tbl_aluno_id) 
+    REFERENCES tbl_aluno(id)
+);
+
+
+CREATE TABLE tbl_professores (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(100) NOT NULL,
+    cpf VARCHAR(11) UNIQUE NOT NULL,
+    data_nascimento DATE,
+    numero VARCHAR(45),
+    email VARCHAR(255),
+    tbl_aluno_id INT,
+    FOREIGN KEY (tbl_aluno_id)
+    REFERENCES tbl_aluno(id)
+);
+
+
+CREATE TABLE tbl_turmas (
+    id_turma INT PRIMARY KEY AUTO_INCREMENT,
+    nome_turma VARCHAR(45) NOT NULL,
+    ano VARCHAR(45),
+    materia VARCHAR(45),
+    tbl_aluno_id INT,
+    FOREIGN KEY (tbl_aluno_id)
+    REFERENCES tbl_aluno(id)
+);
+
+INSERT INTO tbl_aluno (nome, cpf, data_nascimento, numero, email, matricula) 
+VALUES 
+('rodrigo_santos_almeida', '12345678909', '2001-03-05', '988762328', 'rodrigosanto12@hotmail.com', '2023100154'),
+('mariana_oliveira_silva', '98765432100', '1995-07-15', '987654321', 'mariana.oliveira95@gmail.com', '2022100437'),
+('joao_carlos_souza', '11122233344', '1988-11-23', '912345678', 'joaocsouza88@yahoo.com', '2021100782'),
+('ana_beatriz_lima', '55566677788', '1972-09-30', '998877665', 'anabeatrizlima@hotmail.com', '2024120095');
+
+select * from tbl_aluno;
+
+INSERT INTO tbl_materias (nome_materia, carga_horaria, tbl_aluno_id) VALUES 
+('Cálculo I', '60 horas', 1),
+('Física Geral', '45 horas', 2),
+('Teoria da Computação', '75 horas', 1),
+('Estruturas de Dados', '60 horas', 3);
+
+INSERT INTO tbl_professores (nome, cpf, data_nascimento, numero, email, tbl_aluno_id) VALUES 
+('Carlos Silva', '11122233344', '1980-05-15', '998877665', 'carlossilva@email.com', 1),
+('Maria Oliveira', '22233344455', '1975-11-22', '987654321', 'mariaoliveira@email.com', 2),
+('João Santos', '33344455566', '1985-07-30', '912345678', 'joaosantos@email.com', 3),
+('Ana Pereira', '44455566677', '1990-02-10', '998877665', 'anapereira@email.com', 4);
+
+INSERT INTO tbl_turmas (nome_turma, ano, materia, tbl_aluno_id) VALUES 
+('Turma A', '2024', 'Cálculo I', 1),
+('Turma B', '2024', 'Teoria da Computação', 1),
+('Turma C', '2024', 'Logística', 3),
+('Turma D', '2024', 'Química Orgânica', 4);
+
+INSERT INTO tbl_cursos (nome_curso, grau, duracao, tbl_cursoscol, tbl_aluno_id) VALUES 
+('Engenharia de Software', 'Bacharelado', '5 anos', 'Faculdade de Tecnologia', 1),
+('Administração', 'Bacharelado', '4 anos', 'Escola de Negócios', 3),
+('Ciência da Computação', 'Bacharelado', '4 anos', 'Faculdade de Ciências Exatas', 1),
+('Quimica', 'Licenciatura', '4 anos', 'Faculdade de Educação', 4);
+
+insert into tbl_materia_aluno (id_aluno, id_materias) values ('1', '1'),('2', '2'), ('3', '3'), ('4', '4') ;
+
+ 
+
+
+select * from tbl_aluno;
+select * from tbl_turmas;
+select * from tbl_cursos;
+select * from tbl_professores;
+select * from tbl_materias;
+select * from tbl_materia_aluno;
